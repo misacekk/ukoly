@@ -1,4 +1,7 @@
 import java.util.Random;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Uzivatel {
     private String jmeno;
@@ -26,12 +29,14 @@ public class Uzivatel {
     }
 
     public String generaceEmailu() {
-        String generaceEmailu = (prijmeni + jmeno).replaceAll("[^a-zA-Zá-žÁ-Ž]", "");
-        String vysledek = generaceEmailu;
-        Random random = new Random();
-        int randomNumber = random.nextInt(900) + 100;
-
-        return vysledek.toLowerCase() + randomNumber + "@gmail.com";
+        StringBuilder sb = new StringBuilder("");
+        String prijmeni1 = prijmeni.trim().replace(" ", "").toLowerCase();
+        String jmeno1 = jmeno.trim().replace(" ", "").toLowerCase();
+        sb.append(prijmeni1.substring(0, 3));
+        sb.append(jmeno1.substring(0, 3));
+        sb.append((int) (Math.random() * 2000));
+        sb.append("@firma.cz");
+        return sb.toString();
     }
 
     public boolean jeEmail() {
@@ -55,8 +60,28 @@ public class Uzivatel {
         int randomNum = (int) (Math.random() * 101);
         String[] words = {"abad.deba.e", "abe.wbe.aeba.", "ba-wb.aeb,a", "eabweb-aeb.eab", "aebwaebaebaebae,.ba-eba,"};
         String randomWord = words[random.nextInt(words.length)];
-        String heslo = randomWord+randomNum;
+        String heslo = randomWord + randomNum;
         return heslo;
+    }
+
+    public String zastreniEmailu() {
+        StringBuilder builder = new StringBuilder(email);
+        for (int i = 0; i < email.length() - 6; i++) {
+            if (builder.charAt(i) != '@') {
+                builder.replace(i, i + 1, "*");
+            } else {
+                i++;
+            }
+        }
+        return builder.toString();
+    }
+
+    public long dnyDoNarozenin() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
+        LocalDate datumNarozeni1 = LocalDate.parse(this.datumNarozeni, formatter);
+        LocalDate dnes = LocalDate.now();
+        LocalDate Narozeniny2 = datumNarozeni1.withYear(dnes.getYear());
+        return ChronoUnit.DAYS.between(dnes, Narozeniny2);
     }
 
     public String getJmeno() {
