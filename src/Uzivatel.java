@@ -50,6 +50,15 @@ public class Uzivatel {
         return obsahujeZavinac && obsahujeTecku;
     }
 
+    public String nahodneHeslo() {
+        Random random = new Random();
+        int randomNum = (int) (Math.random() * 101);
+        String[] words = {"abad.deba.e", "abe.wbe.aeba.", "ba-wb.aeb,a", "eabweb-aeb.eab", "aebwaebaebaebae,.ba-eba,"};
+        String randomWord = words[random.nextInt(words.length)];
+        String heslo = randomWord+randomNum;
+        return heslo;
+    }
+
     public String getJmeno() {
         return jmeno;
     }
